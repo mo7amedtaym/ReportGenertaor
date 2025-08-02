@@ -11,19 +11,23 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ReportViewModel {
+
+    val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+
+
     // Police Report Data
     var caseNumber by mutableStateOf(TextFieldValue(""))
     var officerName by mutableStateOf(TextFieldValue(""))
     var officerRank by mutableStateOf<PoliceRank?>(null)
     var policeDepartment by mutableStateOf<PoliceDepartment?>(null)
-    var reportDate by mutableStateOf(TextFieldValue(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))))
+    var reportDate by mutableStateOf(TextFieldValue(LocalDate.now().format(formatter)))
     var reportTime by mutableStateOf(TextFieldValue(""))
 
     // Prosecution Report Data
     var prosecutor by mutableStateOf(TextFieldValue(""))
     var secretary by mutableStateOf(TextFieldValue(""))
-    var prosecutionDate by mutableStateOf(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-    var prosecutionTime by mutableStateOf(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")))
+    var prosecutionDate by mutableStateOf(LocalDate.now().format(formatter))
+    var prosecutionTime by mutableStateOf(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")))
 
 
 
@@ -31,6 +35,46 @@ class ReportViewModel {
 
     // Errors
     var errors by mutableStateOf<Map<String, String>>(emptyMap())
+
+
+
+    fun incrementReportDate() {
+        val currentDate = try {
+            LocalDate.parse(reportDate.text, formatter)
+        } catch (e: Exception) {
+            LocalDate.now()
+        }
+        val nextDate = currentDate.plusDays(1)
+        reportDate = TextFieldValue(nextDate.format(formatter))
+    }
+    fun decrementReportDate() {
+        val currentDate = try {
+            LocalDate.parse(reportDate.text, formatter)
+        } catch (e: Exception) {
+            LocalDate.now()
+        }
+        val nextDate = currentDate.minusDays(1)
+        reportDate = TextFieldValue(nextDate.format(formatter))
+    }
+
+    fun incrementDate() {
+        val currentDate = try {
+            LocalDate.parse(prosecutionDate, formatter)
+        } catch (e: Exception) {
+            LocalDate.now()
+        }
+        val nextDate = currentDate.plusDays(1)
+        prosecutionDate = nextDate.format(formatter)
+    }
+    fun decrementDate() {
+        val currentDate = try {
+            LocalDate.parse(prosecutionDate, formatter)
+        } catch (e: Exception) {
+            LocalDate.now()
+        }
+        val nextDate = currentDate.minusDays(1)
+        prosecutionDate = nextDate.format(formatter)
+    }
 
 
 

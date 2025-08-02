@@ -127,26 +127,40 @@ fun ReportsView(viewModel: ReportViewModel, onNextClicked: () -> Unit) {
                             label = "قسم الشرطة",
                             isError = viewModel.errors.containsKey("policeDepartment")
                         )
-                        Row {
+                        Row(verticalAlignment = Alignment.Top) {
 
                             CustomDateInputField(
                                 modifier = Modifier.weight(3f),
                                 value = viewModel.reportDate.text,
                                 onValueChange = { viewModel.reportDate = TextFieldValue(it)
                                     viewModel.errors = viewModel.errors - "reportDate"},
+                                upEvent = { viewModel.incrementReportDate() },
+                                downEvent = {viewModel.decrementReportDate()},
                                 label = "تاريخ المحضر",
                                 isError = viewModel.errors.containsKey("reportDate")
                             )
 
-                            CustomTimeInputField(
-                                modifier = Modifier.weight(2f),
-                                value = viewModel.reportTime.text,
-                                onValueChange = { viewModel.reportTime = TextFieldValue(it)
-                                    viewModel.errors = viewModel.errors - "reportTime"},
-                                isError = viewModel.errors.containsKey("reportTime"),
-                                label = "وقت المحضر",
+                            Column(modifier = Modifier.weight(2f), horizontalAlignment = Alignment.CenterHorizontally){
+                                CustomTimeInputField(
+                                    value = viewModel.reportTime.text,
+                                    onValueChange = {
+                                        viewModel.reportTime = TextFieldValue(it)
+                                        viewModel.errors = viewModel.errors - "reportTime"
+                                    },
+                                    isError = viewModel.errors.containsKey("reportTime"),
+                                    label = "وقت المحضر",
 
-                            )
+                                    )
+                                if (viewModel.isTimeValid(viewModel.reportTime.text)) {
+                                    Row{
+                                        Text(
+                                            viewModel.formatToArabicTime(viewModel.reportTime.text),
+                                            fontSize = 12.sp,
+                                            color = Color(0xFF0D415B),
+                                        )
+                                    }
+                                }
+                            }
                         }
 
 
@@ -189,30 +203,43 @@ fun ReportsView(viewModel: ReportViewModel, onNextClicked: () -> Unit) {
                             label = "سكرتير التحقيق"
                         )
 
-                        Row {
+                        Row(verticalAlignment = Alignment.Top) {
 
-                            Column(Modifier.weight(3f)) {
-                                CustomDateInputField(
-                                    value = viewModel.prosecutionDate,
-                                    onValueChange = { viewModel.prosecutionDate = it
-                                        viewModel.errors = viewModel.errors - "prosecutionDate"},
-                                    isError = viewModel.errors.containsKey("prosecutionDate"),
-                                    label = "تاريخ المحضر",
-                                )
+                            CustomDateInputField(
+                                modifier = Modifier.weight(3f),
+                                value = viewModel.prosecutionDate,
+                                onValueChange = { viewModel.prosecutionDate = it
+                                    viewModel.errors = viewModel.errors - "prosecutionDate"},
+                                upEvent = { viewModel.incrementDate()},
+                                downEvent = {viewModel.decrementDate()},
+                                isError = viewModel.errors.containsKey("prosecutionDate"),
+                                label = "تاريخ المحضر",
+                            )
 
-                            }
 
-
-                            Column(Modifier.weight(2f)) {
+                            Column(modifier = Modifier.weight(2f), horizontalAlignment = Alignment.CenterHorizontally){
                                 CustomTimeInputField(
                                     value = viewModel.prosecutionTime,
-                                    onValueChange = { viewModel.prosecutionTime = it
+                                    onValueChange = {
+                                        viewModel.prosecutionTime = it
                                         viewModel.errors = viewModel.errors - "prosecutionTime"},
                                     isError = viewModel.errors.containsKey("prosecutionTime"),
                                     label = "وقت المحضر",
 
                                     )
+                                if (viewModel.isTimeValid(viewModel.prosecutionTime)) {
+                                    Row{
+                                        Text(
+                                            viewModel.formatToArabicTime(viewModel.prosecutionTime),
+                                            fontSize = 12.sp,
+                                            color = Color(0xFF0D415B),
+                                        )
+                                    }
+                                }
                             }
+
+
+
                         }
                         Text(
                             "الوقت والتاريخ تم إدراجه تلقائياً وهوا يًمثل الوقت الحالي كما في إعدادات جهاز الكمبيوتر ويمكن تعديلهم بسهولة.",

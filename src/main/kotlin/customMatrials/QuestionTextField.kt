@@ -31,6 +31,7 @@ fun QuestionTextField(
     isEnabled: Boolean = true,
     errorColor: Color= Color(0xffF81973),
     isError: Boolean = false,
+    singleLine: Boolean = true,
     placeholder: String= "إجابة المتهم هنا",
     errorMessage: String = "تأكد من صحة البيانات!",
 ) {
@@ -55,7 +56,7 @@ fun QuestionTextField(
         },
 
         shape = RoundedCornerShape(12.dp),
-        singleLine = true,
+        singleLine = singleLine,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = mainColor,
             unfocusedBorderColor = mainColor,
@@ -63,7 +64,8 @@ fun QuestionTextField(
             textColor = mainColor,
             errorBorderColor = errorColor,
             errorCursorColor = errorColor,
-            disabledBorderColor = Color(0xDADADA)
+            disabledBorderColor = Color(0xDADADA),
+            backgroundColor = Color.White
         ),
         textStyle = TextStyle(
             color = mainColor,

@@ -161,7 +161,7 @@ fun VehicleView(viewModel: VehicleViewModel, onNextClicked: () -> Unit, onBackCl
                         modifier = Modifier.padding(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("بيانات السيارة", fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                        Text("بيانات ال${viewModel.vehicleType}", fontSize = 22.sp, fontWeight = FontWeight.Bold)
                         Spacer(Modifier.height(4.dp))
 
                         Row {
@@ -191,7 +191,7 @@ fun VehicleView(viewModel: VehicleViewModel, onNextClicked: () -> Unit, onBackCl
                                         viewModel.errors = viewModel.errors - "plate"
                                     },
                                     isError = viewModel.errors.containsKey("plate"),
-                                    label = "لوحة السيارة"
+                                    label = "لوحة ال${viewModel.vehicleType}"
                                 )
                             }
                         }
@@ -222,12 +222,12 @@ fun VehicleView(viewModel: VehicleViewModel, onNextClicked: () -> Unit, onBackCl
                                 viewModel.errors = viewModel.errors - "owner"
                             },
                             isError = viewModel.errors.containsKey("owner"),
-                            label = "مالك السيارة",
+                            label = "مالك ال${viewModel.vehicleType}",
                             isEnabled = !(viewModel.isOwner)
                         )
                         Row(horizontalArrangement = Arrangement.spacedBy ( 8.dp ), verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                "هل المتهم هوا نفسه مالك السيارة؟",
+                                "هل المتهم هوا نفسه مالك ال${viewModel.vehicleType}؟",
                                 fontSize = 13.sp
                             )
                             Checkbox(

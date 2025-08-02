@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,8 @@ import java.time.format.DateTimeFormatter
 fun CustomDateInputField(
     value: String,
     onValueChange: (String) -> Unit,
+    upEvent: () -> Unit,
+    downEvent: () -> Unit,
     label: String,
     modifier: Modifier = Modifier,
     mainColor: Color = Color(0xFF005C83),
@@ -135,6 +138,19 @@ fun CustomDateInputField(
                         )
                     }
                 }
+                .onPreviewKeyEvent { keyEvent ->
+                    if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionUp && isValid) {
+                        upEvent()
+                        true
+                    } else if (keyEvent.type == KeyEventType.KeyDown && keyEvent.key == Key.DirectionDown && isValid) {
+                        downEvent()
+                        true
+                    }
+                    else{
+                        false
+                    }
+                },
+
 
         )
 
